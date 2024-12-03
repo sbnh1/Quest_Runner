@@ -6,6 +6,13 @@ public abstract class Personnage {
     private String nom;
     private Arme arme;
 
+    public Personnage(int pointsDeVie, int niveau, String nom, Arme arme){
+        this.pointsDeVie = pointsDeVie;
+        this.niveau = niveau;
+        this.nom = nom;
+        this.arme = arme;
+
+    }
     public int getPointsDeVie() {
         return pointsDeVie;
     }

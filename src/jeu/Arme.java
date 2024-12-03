@@ -5,6 +5,12 @@ public abstract class Arme {
     private String nom;
     private double poids;
 
+    public Arme(String nom, int degat, double poids) {
+        this.nom = nom;
+        this.degat = degat;
+        this.poids = poids;
+    }
+
     public int getDegat() {
         return degat;
     }
