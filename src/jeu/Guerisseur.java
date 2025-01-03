@@ -20,4 +20,20 @@ public class Guerisseur extends Personnage {
     public void setSagesse(int sagesse) {
         this.sagesse = sagesse;
     }
+
+    public int getPointDeVieDeBase(){
+        return pointDeVieDeBase;
+    }
+
+    public void augmenterLvl(){
+        this.sagesse += 3;
+        this.pointsDeVie += 10;
+        this.pointDeVieDeBase += 10;
+        this.niveau += 1;
+    }
+
+    public void augmenterDegat(){
+        arme.augmenterDegat(5);
+    }
+
 }

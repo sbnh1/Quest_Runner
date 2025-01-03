@@ -1,9 +1,9 @@
 package jeu;
 
 public abstract class Arme {
-    private int degat;
-    private String nom;
-    private double poids;
+    protected int degat;
+    protected String nom;
+    protected double poids;
 
     public Arme(String nom, int degat, double poids) {
         this.nom = nom;
@@ -33,6 +33,10 @@ public abstract class Arme {
 
     public void setPoids(double poids) {
         this.poids = poids;
+    }
+
+    public void augmenterDegat(int degatAugmente){
+        this.degat += degatAugmente;
     }
 }
 

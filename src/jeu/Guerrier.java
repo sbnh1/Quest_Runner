@@ -1,5 +1,7 @@
 package jeu;
 
+import visiteur.VisiteurPerso;
+
 public class Guerrier extends Personnage {
     private int force;
 
@@ -20,4 +22,16 @@ public class Guerrier extends Personnage {
     public void setForce(int force) {
         this.force = force;
     }
+
+    public void augmenterLvl(){
+        this.force += 3;
+        this.pointsDeVie += 10;
+        this.pointDeVieDeBase += 10;
+        this.niveau += 1;
+    }
+
+    public void augmenterDegat(){
+        arme.augmenterDegat(5);
+    }
+
 }

@@ -31,4 +31,15 @@ public class Roi extends Personnage {
     public void setRoyaume(String royaume) {
         this.royaume = royaume;
     }
+
+    public void augmenterLvl(){
+        this.force += 3;
+        this.pointsDeVie += 10;
+        this.pointDeVieDeBase += 10;
+        this.niveau += 1;
+    }
+
+    public void augmenterDegat(){
+        arme.augmenterDegat(5);
+    }
 }

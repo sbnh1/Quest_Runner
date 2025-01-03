@@ -1,17 +1,18 @@
 package jeu;
 
 public abstract class Personnage {
-    private int pointsDeVie;
-    private int niveau;
-    private String nom;
-    private Arme arme;
+    protected int pointsDeVie;
+    protected int pointDeVieDeBase;
+    protected int niveau;
+    protected String nom;
+    protected Arme arme;
 
     public Personnage(int pointsDeVie, int niveau, String nom, Arme arme){
         this.pointsDeVie = pointsDeVie;
         this.niveau = niveau;
         this.nom = nom;
         this.arme = arme;
-
+        this.pointDeVieDeBase = pointsDeVie;
     }
     public int getPointsDeVie() {
         return pointsDeVie;
