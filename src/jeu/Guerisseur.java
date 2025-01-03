@@ -37,10 +37,22 @@ public class Guerisseur extends Personnage {
         this.pointsDeVie += 10;
         this.pointDeVieDeBase += 10;
         this.niveau += 1;
+        this.defense += 5;
     }
 
     public void augmenterDegat(){
         arme.augmenterDegat(5);
     }
 
+    public void diminuerDegat(){
+        arme.augmenterDegat(-5);
+    }
+
+    public void augmenterDefense(){
+        this.defense += 10;
+    }
+
+    public void diminuerDefense(){
+        this.defense -= 10;
+    }
 }

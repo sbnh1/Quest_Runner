@@ -21,4 +21,28 @@ class RoiTest {
         personnage.accept(new DegatVisiteur());
         assertEquals(15,personnage.getArme().getDegat());
     }
+
+    @Test
+    void modeAttaque(){
+        Personnage personnage = new Roi(10,1,"eniripsia",new BaguetteMagique("baguette",10,3.));
+        personnage.choisirModeAttaque();
+        assertEquals(-10,personnage.getDefense());
+        assertEquals(15,personnage.getArme().getDegat());
+    }
+
+    @Test
+    void modeDefense(){
+        Personnage personnage = new Roi(10,1,"eniripsia",new BaguetteMagique("baguette",10,3.));
+        personnage.choisirModeDefense();
+        assertEquals(30,personnage.getDefense());
+        assertEquals(5,personnage.getArme().getDegat());
+    }
+
+    @Test
+    void modeNormal(){
+        Personnage personnage = new Roi(10,1,"eniripsia",new BaguetteMagique("baguette",10,3.));
+        personnage.choisirModeDefense();
+        personnage.choisirModeNormal();
+        assertEquals(10,personnage.getDefense());
+    }
 }

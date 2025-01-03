@@ -19,6 +19,30 @@ class GuerrierTest {
     void augmenterDegat() {
         Personnage guerrier = new Guerrier(10,1,"iop",new Epee("Mashwarr", 10,1.));
         guerrier.accept(new DegatVisiteur());
-        assertEquals(15, guerrier.getArme().getDegat());
+        assertEquals(25, guerrier.getArme().getDegat());
+    }
+
+    @Test
+    void modeAttaque(){
+        Personnage guerrier = new Guerrier(10,1,"iop",new Epee("Mashwarr", 10,1.));
+        guerrier.choisirModeAttaque();
+        assertEquals(0, guerrier.getDefense());
+        assertEquals(25, guerrier.getArme().getDegat());
+    }
+
+    @Test
+    void modeDefense(){
+        Personnage guerrier = new Guerrier(10,1,"iop",new Epee("Mashwarr", 10,1.));
+        guerrier.choisirModeDefense();
+        assertEquals(20, guerrier.getDefense());
+        assertEquals(-5, guerrier.getArme().getDegat());
+    }
+
+    @Test
+    void modeNormal(){
+        Personnage guerrier = new Guerrier(10,1,"iop",new Epee("Mashwarr", 10,1.));
+        guerrier.choisirModeDefense();
+        guerrier.choisirModeNormal();
+        assertEquals(10, guerrier.getDefense());
     }
 }
