@@ -15,6 +15,11 @@ public class Guerrier extends Personnage {
         this.force = force;
     }
 
+    @Override
+    public void accept(VisiteurPerso v) {
+        v.visite(this);
+    }
+
     public int getForce() {
         return force;
     }

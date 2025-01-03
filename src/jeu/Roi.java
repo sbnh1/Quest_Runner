@@ -1,5 +1,7 @@
 package jeu;
 
+import visiteur.VisiteurPerso;
+
 public class Roi extends Personnage {
     private int force;
     private String royaume;
@@ -14,6 +16,11 @@ public class Roi extends Personnage {
         super(pointsDeVie, niveau, nom, arme);
         this.force = force;
         this.royaume = royaume;
+    }
+
+    @Override
+    public void accept(VisiteurPerso v) {
+        v.visite(this);
     }
 
     public int getForce() {

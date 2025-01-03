@@ -1,5 +1,7 @@
 package jeu;
 
+import visiteur.VisiteurPerso;
+
 public class Sorcier extends Personnage {
     private int intelligence;
 
@@ -11,6 +13,11 @@ public class Sorcier extends Personnage {
     public Sorcier(int pointDevie, int niveau, String nom, Arme arme, int intelligence){
         super(pointDevie,niveau,nom,arme);
         this.intelligence = intelligence;
+    }
+
+    @Override
+    public void accept(VisiteurPerso v) {
+        v.visite(this);
     }
 
     public int getIntelligence() {

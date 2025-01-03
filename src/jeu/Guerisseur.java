@@ -1,11 +1,18 @@
 package jeu;
 
+import visiteur.VisiteurPerso;
+
 public class Guerisseur extends Personnage {
     private int sagesse;
 
     public Guerisseur(int pointsDeVie, int niveau, String nom, Arme arme) {
         super(pointsDeVie, niveau, nom, arme);
         this.sagesse = 10;
+    }
+
+    @Override
+    public void accept(VisiteurPerso v) {
+        v.visite(this);
     }
 
     public Guerisseur(int pointsDeVie, int niveau, String nom, Arme arme, int sagesse) {

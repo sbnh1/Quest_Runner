@@ -1,5 +1,7 @@
 package jeu;
 
+import visiteur.*;
+
 public abstract class Personnage {
     protected int pointsDeVie;
     protected int pointDeVieDeBase;
@@ -45,4 +47,6 @@ public abstract class Personnage {
     public void setArme(Arme arme) {
         this.arme = arme;
     }
+
+    public abstract void accept(VisiteurPerso v);
 }
