@@ -1,9 +1,6 @@
 package visiteur;
 
-import jeu.Guerisseur;
-import jeu.Guerrier;
-import jeu.Roi;
-import jeu.Sorcier;
+import jeu.*;
 
 public class NiveauVisiteur implements VisiteurPerso{
     @Override
@@ -24,5 +21,12 @@ public class NiveauVisiteur implements VisiteurPerso{
     @Override
     public void visite(Sorcier sorcier){
         sorcier.augmenterLvl();
+    }
+
+    @Override
+    public void visite(Equipe equipe) {
+        for (int i = 0; i < equipe.getSize(); i++) {
+            equipe.getChild(i).accept(this);
+        }
     }
 }

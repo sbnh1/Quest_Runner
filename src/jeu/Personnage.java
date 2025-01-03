@@ -1,8 +1,9 @@
 package jeu;
 
+import composite.InterfaceEquipe;
 import visiteur.*;
 
-public abstract class Personnage {
+public abstract class Personnage implements InterfaceEquipe {
     protected int pointsDeVie;
     protected int pointDeVieDeBase;
     protected int niveau;
