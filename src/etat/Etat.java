@@ -7,4 +7,5 @@ public interface Etat {
 
     void soigner(Personnage personnage);
 
+
 }
