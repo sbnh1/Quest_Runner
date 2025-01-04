@@ -29,13 +29,13 @@ public class Guerisseur extends Personnage {
     }
 
     public int getPointDeVieDeBase(){
-        return pointDeVieDeBase;
+        return maxPointDeVie;
     }
 
     public void augmenterLvl(){
         this.sagesse += 3;
         this.pointsDeVie += 10;
-        this.pointDeVieDeBase += 10;
+        this.maxPointDeVie += 10;
         this.niveau += 1;
         this.defense += 5;
     }

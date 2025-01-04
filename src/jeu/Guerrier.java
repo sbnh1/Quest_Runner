@@ -31,7 +31,7 @@ public class Guerrier extends Personnage {
     public void augmenterLvl(){
         this.force += 3;
         this.pointsDeVie += 10;
-        this.pointDeVieDeBase += 10;
+        this.maxPointDeVie += 10;
         this.niveau += 1;
         this.defense += 5;
     }

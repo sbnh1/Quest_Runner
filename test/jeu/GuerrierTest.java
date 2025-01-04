@@ -45,4 +45,15 @@ class GuerrierTest {
         guerrier.choisirModeNormal();
         assertEquals(10, guerrier.getDefense());
     }
+
+    // Test des transitions (Vivant -> Blessé -> Mort)
+    @Test
+    void transitionVivantBlesseMort() {
+        Personnage guerrier = new Guerrier(12, 1, "iop", new Epee("Mashwarr", 10, 1.));
+        Personnage attaquant = new Guerrier(10, 1, "attaquant", new BaguetteMagique("baguette", 10, 3.));
+        attaquant.etat.attaquer(attaquant, guerrier);
+        assertEquals(2, guerrier.getPointsDeVie());
+        attaquant.etat.attaquer(attaquant, guerrier);
+        assertEquals(0, guerrier.getPointsDeVie());
+    }
 }

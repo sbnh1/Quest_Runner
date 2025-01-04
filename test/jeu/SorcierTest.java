@@ -45,4 +45,14 @@ class SorcierTest {
         personnage.choisirModeNormal();
         assertEquals(10,personnage.getDefense());
     }
+
+    @Test
+    void transitionVivantBlesseMort(){
+        Personnage personnage = new Sorcier(12,1,"eniripsia",new BaguetteMagique("baguette",10,3.));
+        Personnage attaquant = new Sorcier(10,1,"attaquant",new BaguetteMagique("baguette",10,3.));
+        attaquant.etat.attaquer(attaquant,personnage);
+        assertEquals(2,personnage.getPointsDeVie());
+        attaquant.etat.attaquer(attaquant,personnage);
+        assertEquals(0,personnage.getPointsDeVie());
+    }
 }

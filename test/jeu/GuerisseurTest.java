@@ -46,4 +46,14 @@ class GuerisseurTest {
         guerrisseur.choisirModeNormal();
         assertEquals(10,guerrisseur.getDefense());
     }
+
+    @Test
+    void transitionVivantBlesseMort(){
+        Personnage guerrisseur = new Guerisseur(12,1,"eniripsia",new BaguetteMagique("baguette",10,3.));
+        Personnage attaquant = new Guerisseur(10,1,"attaquant",new BaguetteMagique("baguette",10,3.));
+        attaquant.etat.attaquer(attaquant,guerrisseur);
+        assertEquals(2,guerrisseur.getPointsDeVie());
+        attaquant.etat.attaquer(attaquant,guerrisseur);
+        assertEquals(0,guerrisseur.getPointsDeVie());
+    }
 }
