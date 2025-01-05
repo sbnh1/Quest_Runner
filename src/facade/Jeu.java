@@ -22,43 +22,14 @@ public class Jeu {
         this.equipes = new ArrayList<>();
     }
 
-    public void creerEquipe(String nomEquipe, List<Personnage> membresEquipe) {
-        Equipe equipe = new Equipe(nomEquipe);
-        for (Personnage membre : membresEquipe) {
-            equipe.ajouter(membre);
-        }
-        equipes.add(equipe);
-
-    }
-
     public void ajouterEquipe(Equipe equipe) {
         equipes.add(equipe);
-    }
-
-    private void ajouterMembreEquipe(String nomEquipe, Personnage nouveauMembre) {
-        // Chercher l'équipe par son nom
-        Equipe equipe = trouverEquipeParNom(nomEquipe);
-
-        // Vérifier si l'équipe a été trouvée
-        if (equipe != null) {
-            // Ajouter le nouveau membre à l'équipe
-            equipe.ajouter(nouveauMembre);
-            System.out.println("Membre ajouté à l'équipe " + nomEquipe + ".");
-        } else {
-            // L'équipe n'a pas été trouvée
-            System.out.println("L'équipe " + nomEquipe + " n'existe pas.");
-        }
     }
 
     private void afficherEquipes() {
         for (Equipe equipe : equipes) {
             equipe.afficherEquipe();
         }
-    }
-
-    private void supprimerEquipe(String nomEquipeASupprimer) {
-        equipes.removeIf(equipe -> equipe.getNom().equals(nomEquipeASupprimer));
-        System.out.println("Equipe : " + nomEquipeASupprimer + " supprimée");
     }
 
     private void faireAttaque(Personnage attaquant, Personnage cible) {

@@ -138,13 +138,4 @@ public abstract class Personnage implements InterfaceEquipe {
     public void soigner(Personnage cible){
         cible.etat.soigner(cible);
     }
-
-    public void afficher() {
-        System.out.println("Nom : " + nom);
-        System.out.println("Niveau : " + niveau);
-        System.out.println("Points de vie : " + pointsDeVie);
-        System.out.println("Arme : " + arme.getNom());
-        System.out.println("Dégâts : " + arme.getDegat());
-        System.out.println("Défense : " + defense);
-    }
 }

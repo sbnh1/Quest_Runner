@@ -10,14 +10,14 @@ public class Guerisseur extends Personnage {
         this.sagesse = 10;
     }
 
-    @Override
-    public void accept(VisiteurPerso v) {
-        v.visite(this);
-    }
-
     public Guerisseur(int pointsDeVie, int niveau, String nom, Arme arme, int sagesse) {
         super(pointsDeVie, niveau, nom, arme);
         this.sagesse = sagesse;
+    }
+
+    @Override
+    public void accept(VisiteurPerso v) {
+        v.visite(this);
     }
 
     public int getSagesse() {
@@ -26,10 +26,6 @@ public class Guerisseur extends Personnage {
 
     public void setSagesse(int sagesse) {
         this.sagesse = sagesse;
-    }
-
-    public int getPointDeVieDeBase(){
-        return maxPointDeVie;
     }
 
     public void augmenterLvl(){
