@@ -4,14 +4,26 @@ import composite.InterfaceEquipe;
 import jeu.*;
 
 public class FabriqueEquipe extends Fabrique{
+
+    /**
+     * Constructeur de la classe FabriqueEquipe
+     */
     public FabriqueEquipe(){
         super();
     }
 
+    /**
+     * Méthode permettant de créer un personnage
+     * @return Personnage
+     */
     public Personnage creerPersonnage(){
         return null;
     }
 
+    /**
+     * Méthode permettant de créer une équipe
+     * @return InterfaceEquipe
+     */
     public InterfaceEquipe creerEquipe(){
         int choix = (int)(Math.random()*5);
         switch(choix) {

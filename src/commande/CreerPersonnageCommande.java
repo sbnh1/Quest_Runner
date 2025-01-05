@@ -10,12 +10,21 @@ public class CreerPersonnageCommande implements Commande {
     private Fabrique fabrique;
     private Personnage personnage;
 
+    /**
+     * Constructeur de la commande de création de personnage
+     * @param jeu Jeu
+     * @param equipe Equipe
+     * @param fabrique Fabrique
+     */
     public CreerPersonnageCommande(Jeu jeu, Equipe equipe, Fabrique fabrique) {
         this.jeu = jeu;
         this.equipe = equipe;
         this.fabrique = fabrique;
     }
 
+    /**
+     * Permet d'executer une commande
+     */
     @Override
     public void executer() {
         personnage = fabrique.creerPersonnage();
@@ -23,6 +32,9 @@ public class CreerPersonnageCommande implements Commande {
         System.out.println("Personnage " + personnage.getNom() + " créé");
     }
 
+    /**
+     * Permet de defaire une commande
+     */
     @Override
     public void defaire() {
         equipe.retirer(personnage);
