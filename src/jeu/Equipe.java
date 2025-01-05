@@ -81,4 +81,16 @@ public class Equipe implements InterfaceEquipe {
         }
         return membres;
     }
+
+    public void retirer(Personnage personnage) {
+        for (int i = 0; i < listeEquipe.size(); i++) {
+            InterfaceEquipe membre = listeEquipe.get(i);
+            if (membre instanceof Personnage && membre.equals(personnage)) {
+                listeEquipe.remove(i);
+                System.out.println(personnage.getNom() + " a été retiré de l'équipe");
+                return;
+            }
+        }
+        System.out.println("erreur lors de la suppression de : " + personnage.getNom());
+    }
 }

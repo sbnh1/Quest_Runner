@@ -1,5 +1,8 @@
 package facade;
 
+import commande.CommandeManager;
+import commande.Commande;
+import commande.CreerPersonnageCommande;
 import composite.InterfaceEquipe;
 import fabrique.*;
 import jeu.*;
@@ -12,6 +15,8 @@ import java.util.Scanner;
 
 public class Jeu {
     private List<Equipe> equipes;
+    private CommandeManager commandManager = new CommandeManager();
+
 
     public Jeu() {
         this.equipes = new ArrayList<>();
@@ -29,7 +34,6 @@ public class Jeu {
     public void ajouterEquipe(Equipe equipe) {
         equipes.add(equipe);
     }
-
 
     private void ajouterMembreEquipe(String nomEquipe, Personnage nouveauMembre) {
         // Chercher l'équipe par son nom
@@ -223,7 +227,7 @@ public class Jeu {
     }
 
 
-    public void initialisation(){
+    public void initialisation() {
         FabriqueEquipe fabriqueEquipe = new FabriqueEquipe();
         Scanner scanner = new Scanner(System.in);
 
@@ -239,7 +243,7 @@ public class Jeu {
         Equipe membresEquipeUtilisateur = new Equipe(nomEquipe);
 
         for (int i = 0; i < nbPersonnages; i++) {
-            // Choix des personnages que l'utilisateurs souhaite
+            // Choix des personnages que l'utilisateur souhaite
             System.out.println("Choisissez le type de personnage pour le membre " + (i + 1) + " :");
             System.out.println("1 - Roi");
             System.out.println("2 - Sorcier");
@@ -249,25 +253,22 @@ public class Jeu {
             int choix = scanner.nextInt();
             scanner.nextLine();
 
+            Commande CreerPersonnageCommande;
             Personnage personnage = null;
 
-            // Création du personnage
+            // Création de la commande pour le personnage
             switch (choix) {
                 case 1:
-                    FabriqueRoi roi = new FabriqueRoi();
-                    personnage = roi.creerPersonnage();
+                    CreerPersonnageCommande = new CreerPersonnageCommande(this, membresEquipeUtilisateur, new FabriqueRoi());
                     break;
                 case 2:
-                    FabriqueSorcier sorcier = new FabriqueSorcier();
-                    personnage = sorcier.creerPersonnage();
+                    CreerPersonnageCommande = new CreerPersonnageCommande(this, membresEquipeUtilisateur, new FabriqueSorcier());
                     break;
                 case 3:
-                    FabriqueGuerrier guerrier = new FabriqueGuerrier();
-                    personnage = guerrier.creerPersonnage();
+                    CreerPersonnageCommande = new CreerPersonnageCommande(this, membresEquipeUtilisateur, new FabriqueGuerrier());
                     break;
                 case 4:
-                    FabriqueGuerisseur guerisseur = new FabriqueGuerisseur();
-                    personnage = guerisseur.creerPersonnage();
+                    CreerPersonnageCommande = new CreerPersonnageCommande(this, membresEquipeUtilisateur, new FabriqueGuerisseur());
                     break;
                 default:
                     System.out.println("Choix invalide, veuillez choisir un nombre entre 1 et 4.");
@@ -275,42 +276,45 @@ public class Jeu {
                     continue;
             }
 
-            membresEquipeUtilisateur.ajouter(personnage);
+            // Exécution de la commande
+            commandManager.executerCommande(CreerPersonnageCommande);
+
+            // Option pour annuler la commande
+            System.out.println("Voulez-vous annuler la création de ce personnage ? (oui/non)");
+            String annuler = scanner.nextLine().trim().toLowerCase();
+            if (annuler.equals("oui")) {
+                commandManager.defaireDerniereCommande();
+                i--;
+            }
         }
+
         this.ajouterEquipe(membresEquipeUtilisateur);
 
-
-        // Jouer tant que l'équipe utilisateur gagne
+        // Suite de l'initialisation (combat, amélioration, etc.)
         while (true) {
-            // Créer une équipe ennemie
+            // Reste du code inchangé pour le combat
             InterfaceEquipe equipeEnnemie = fabriqueEquipe.creerEquipe();
-
             System.out.println("Equipe Utilisateur :");
             this.afficherEquipes();
-
             System.out.println("Equipe Ennemie :");
             if (equipeEnnemie instanceof Equipe) {
                 Equipe equipeEnnemie1 = (Equipe) equipeEnnemie;
-                System.out.println("Equipe Ennemie :");
                 equipeEnnemie1.afficherEquipe();
             } else {
-                System.out.println("Affichage non disponible pour l'équipe ennemie.");
+                System.out.println("Affichage non disponible pour l'équipe ennemie");
             }
-
-            // Lancement du combat
             boolean equipeUtilisateurGagne = this.combat(this, membresEquipeUtilisateur, equipeEnnemie);
 
             if (equipeUtilisateurGagne) {
-                // L'équipe utilisateur gagne
                 System.out.println("Victoire de l'équipe utilisateur !\n\n");
                 this.ameliorerEquipe(nomEquipe);
                 this.updateEtatEquipe(nomEquipe);
             } else {
-                // L'équipe utilisateur perd
                 System.out.println("L'équipe utilisateur a perdu !");
                 break;
             }
         }
         scanner.close();
     }
+
 }
