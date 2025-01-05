@@ -6,6 +6,7 @@ public class Epee extends Arme {
     public Epee(String nom, int degat, double poids, int longueur) {
         super(nom, degat, poids);
         this.longueur = longueur;
+        this.soin = 0;
     }
 
     public Epee(String nom, int degat, double poids){

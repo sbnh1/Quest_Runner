@@ -45,6 +45,8 @@ public class Roi extends Personnage {
         this.maxPointDeVie += 10;
         this.niveau += 1;
         this.defense += 5;
+        this.getArme().augmenterSoin(2);
+        this.getArme().augmenterDegat(10);
     }
 
     public void augmenterDegat(){

@@ -12,7 +12,7 @@ public class EtatBlesse implements Etat {
 
     @Override
     public void soigner(Personnage personnage) {
-        int soin = personnage.getMaxPointsDeVie() / 4;
+        int soin = (personnage.getMaxPointsDeVie() / 4) + personnage.getArme().getSoin();
         personnage.setPointsDeVie(personnage.getPointsDeVie() + soin);
         System.out.println(personnage.getNom() + " est soigné, points de vie actuels : " + personnage.getPointsDeVie());
     }

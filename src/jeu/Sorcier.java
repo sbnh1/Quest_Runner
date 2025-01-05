@@ -34,6 +34,8 @@ public class Sorcier extends Personnage {
         this.maxPointDeVie += 10;
         this.niveau += 1;
         this.defense += 5;
+        this.getArme().augmenterSoin(5);
+        this.getArme().augmenterDegat(7);
     }
 
     public void augmenterDegat(){

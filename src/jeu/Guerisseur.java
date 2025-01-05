@@ -38,6 +38,8 @@ public class Guerisseur extends Personnage {
         this.maxPointDeVie += 10;
         this.niveau += 1;
         this.defense += 5;
+        this.getArme().augmenterSoin(15);
+        this.getArme().augmenterDegat(5);
     }
 
     public void augmenterDegat(){

@@ -1,6 +1,7 @@
 package facade;
 
 import composite.InterfaceEquipe;
+import fabrique.*;
 import jeu.*;
 import singleton.CompteurDeTour;
 
@@ -12,11 +13,11 @@ import java.util.Scanner;
 public class Jeu {
     private List<Equipe> equipes;
 
-    public Jeu(){
+    public Jeu() {
         this.equipes = new ArrayList<>();
     }
 
-    public void creerEquipe(String nomEquipe, List<Personnage> membresEquipe){
+    public void creerEquipe(String nomEquipe, List<Personnage> membresEquipe) {
         Equipe equipe = new Equipe(nomEquipe);
         for (Personnage membre : membresEquipe) {
             equipe.ajouter(membre);
@@ -30,7 +31,7 @@ public class Jeu {
     }
 
 
-    public void ajouterMembreEquipe(String nomEquipe, Personnage nouveauMembre) {
+    private void ajouterMembreEquipe(String nomEquipe, Personnage nouveauMembre) {
         // Chercher l'équipe par son nom
         Equipe equipe = trouverEquipeParNom(nomEquipe);
 
@@ -45,32 +46,39 @@ public class Jeu {
         }
     }
 
-    public void afficherEquipes() {
+    private void afficherEquipes() {
         for (Equipe equipe : equipes) {
             equipe.afficherEquipe();
         }
     }
 
-    public void supprimerEquipe(String nomEquipeASupprimer){
+    private void supprimerEquipe(String nomEquipeASupprimer) {
         equipes.removeIf(equipe -> equipe.getNom().equals(nomEquipeASupprimer));
         System.out.println("Equipe : " + nomEquipeASupprimer + " supprimée");
     }
 
-    public void faireAttaque(Personnage attaquant, Personnage cible) {
+    private void faireAttaque(Personnage attaquant, Personnage cible) {
         attaquant.attaquer(cible);
     }
 
-    public void faireSoigner(Personnage attaquant, Personnage cible){
+    private void faireSoigner(Personnage attaquant, Personnage cible) {
         attaquant.soigner(cible);
     }
 
-    public void ameliorerEquipe(String nomEquipe){
+    private void ameliorerEquipe(String nomEquipe) {
         Equipe equipe = trouverEquipeParNom(nomEquipe);
         if (equipe != null) {
             equipe.ameliorer();
             System.out.println("Équipe " + nomEquipe + " améliorée !");
         } else {
             System.out.println("Équipe " + nomEquipe + " introuvable.");
+        }
+    }
+
+    private void updateEtatEquipe(String nomEquipe) {
+        Equipe equipe = trouverEquipeParNom(nomEquipe);
+        for(Personnage personnage : equipe.getMembres()){
+            personnage.updateEtat();
         }
     }
 
@@ -83,9 +91,8 @@ public class Jeu {
         return null;
     }
 
-
     // Méthode pour gérer le combat entre les équipes
-    public static boolean combat(Jeu jeu, Equipe equipeUtilisateur, InterfaceEquipe equipeEnnemie) {
+    private boolean combat(Jeu jeu, Equipe equipeUtilisateur, InterfaceEquipe equipeEnnemie) {
         // Initialiser le compteur de tours (Singleton)
         CompteurDeTour compteurDeTour = CompteurDeTour.getInstance();
 
@@ -97,57 +104,76 @@ public class Jeu {
             Personnage personnageEnnemie1 = equipe.getPersonnage(0);
             Personnage personnageEnnemie2 = equipe.getPersonnage(1);
 
+
+            // Augmentation de la vie et des degats des ennemis
+            int upDegat = (int) (0.9 * compteurDeTour.getCompteur());
+            int upVie = (int) (0.9 * compteurDeTour.getCompteur());
+
+            personnageEnnemie2.getArme().augmenterDegat(upDegat);
+            personnageEnnemie1.getArme().augmenterDegat(upDegat);
+
+            personnageEnnemie1.setMaxPointDeVie(personnageEnnemie1.getMaxPointsDeVie() + upVie);
+            personnageEnnemie1.setPointsDeVie(personnageEnnemie1.getPointsDeVie() + upVie);
+            personnageEnnemie2.setMaxPointDeVie(personnageEnnemie1.getMaxPointsDeVie() + upVie);
+            personnageEnnemie2.setPointsDeVie(personnageEnnemie1.getPointsDeVie() + upVie);
+
+
             // Combat entre l'équipe utilisateur et l'équipe ennemie. Demander action pour chaque personnage, incrémenter de 1 le compteur de tour
             while (true) {
                 System.out.println("\n\nTour " + compteurDeTour.getCompteur() + " :");
                 for (int i = 0; i < equipeUtilisateur.getSize(); i++) {
                     Personnage personnage = equipeUtilisateur.getPersonnage(i);
-                    System.out.println("C'est au tour de " + personnage.getNom() + " de jouer.");
-                    System.out.println("1 - Attaquer");
-                    System.out.println("2 - Soigner");
-                    System.out.println("3 - Passer Mode Attaque");
-                    System.out.println("4 - Passer Mode Défense");
-                    System.out.println("5 - Passer Mode Neutre");
-                    System.out.println("6 - Quitter");
+                    if(personnage.getPointsDeVie() != 0){
+                        System.out.println("C'est au tour de " + personnage.getNom() + " de jouer.");
+                        System.out.println("1 - Attaquer");
+                        System.out.println("2 - Soigner");
+                        System.out.println("3 - Passer Mode Attaque");
+                        System.out.println("4 - Passer Mode Défense");
+                        System.out.println("5 - Passer Mode Neutre");
+                        System.out.println("6 - Quitter");
 
-                    Scanner scanner = new Scanner(System.in);
-                    int choix = scanner.nextInt();
-                    scanner.nextLine();  // Consommer le reste de la ligne
+                        Scanner scanner = new Scanner(System.in);
+                        int choix = scanner.nextInt();
+                        scanner.nextLine();  // Consommer le reste de la ligne
 
-                    switch (choix) {
-                        case 1:
-                            int choixAction = random.nextInt(2);
-                            if (choixAction == 0) {
-                                jeu.faireAttaque(personnage, personnageEnnemie1);  // Attaquer le premier personnage ennemi
-                            } else {
-                                jeu.faireAttaque(personnage, personnageEnnemie2);  // Attaquer le deuxième personnage ennemi
-                            }
-                            break;
-                        case 2:
-                            choixAction = random.nextInt(2);
-                            if (choixAction == 0) {
-                                jeu.faireSoigner(personnage, personnage);
-                            } else {
-                                jeu.faireSoigner(personnage, personnage);
-                            }
-                            break;
-                        case 3:
-                            personnage.choisirModeAttaque();
-                            break;
-                        case 4:
-                            personnage.choisirModeDefense();
-                            break;
-                        case 5:
-                            personnage.choisirModeNormal();
-                            break;
-                        case 6:
-                            System.out.println("Vous avez quitté le combat.");
-                            return false;
-                        default:
-                            System.out.println("Choix invalide, veuillez choisir 1 ou 2.");
-                            break;
+                        switch (choix) {
+                            case 1:
+                                int choixAction = random.nextInt(2);
+                                if (choixAction == 0) {
+                                    jeu.faireAttaque(personnage, personnageEnnemie1);  // Attaquer le premier personnage ennemi
+                                } else {
+                                    jeu.faireAttaque(personnage, personnageEnnemie2);  // Attaquer le deuxième personnage ennemi
+                                }
+                                break;
+                            case 2:
+                                choixAction = random.nextInt(2);
+                                if (choixAction == 0) {
+                                    jeu.faireSoigner(personnage, personnage);
+                                } else {
+                                    jeu.faireSoigner(personnage, personnage);
+                                }
+                                break;
+                            case 3:
+                                personnage.choisirModeAttaque();
+                                break;
+                            case 4:
+                                personnage.choisirModeDefense();
+                                break;
+                            case 5:
+                                personnage.choisirModeNormal();
+                                break;
+                            case 6:
+                                System.out.println("Vous avez quitté le combat.");
+                                return false;
+                            default:
+                                System.out.println("Choix invalide, veuillez choisir 1 ou 2.");
+                                break;
+                        }
+                    } else {
+                        System.out.println(personnage.getNom() + " est mort, il ressuscitera à la prochaine horde");
                     }
                 }
+
 
                 // Ennemi attaque aléatoirement un personnage de l'équipe utilisateur
                 random = new Random();
@@ -194,5 +220,97 @@ public class Jeu {
             System.out.println("L'équipe ennemie n'est pas valide.");
             return false;
         }
+    }
+
+
+    public void initialisation(){
+        FabriqueEquipe fabriqueEquipe = new FabriqueEquipe();
+        Scanner scanner = new Scanner(System.in);
+
+        // Demander à l'utilisateur de créer une équipe
+        System.out.println("Créez votre équipe");
+        System.out.print("Entrez le nom de l'équipe : ");
+        String nomEquipe = scanner.nextLine();
+        System.out.print("Entrez le nombre de personnages (2-4) : ");
+        int nbPersonnages = scanner.nextInt();
+        scanner.nextLine();
+
+        // Créer l'équipe de l'utilisateur
+        Equipe membresEquipeUtilisateur = new Equipe(nomEquipe);
+
+        for (int i = 0; i < nbPersonnages; i++) {
+            // Choix des personnages que l'utilisateurs souhaite
+            System.out.println("Choisissez le type de personnage pour le membre " + (i + 1) + " :");
+            System.out.println("1 - Roi");
+            System.out.println("2 - Sorcier");
+            System.out.println("3 - Guerrier");
+            System.out.println("4 - Guérisseur");
+
+            int choix = scanner.nextInt();
+            scanner.nextLine();
+
+            Personnage personnage = null;
+
+            // Création du personnage
+            switch (choix) {
+                case 1:
+                    FabriqueRoi roi = new FabriqueRoi();
+                    personnage = roi.creerPersonnage();
+                    break;
+                case 2:
+                    FabriqueSorcier sorcier = new FabriqueSorcier();
+                    personnage = sorcier.creerPersonnage();
+                    break;
+                case 3:
+                    FabriqueGuerrier guerrier = new FabriqueGuerrier();
+                    personnage = guerrier.creerPersonnage();
+                    break;
+                case 4:
+                    FabriqueGuerisseur guerisseur = new FabriqueGuerisseur();
+                    personnage = guerisseur.creerPersonnage();
+                    break;
+                default:
+                    System.out.println("Choix invalide, veuillez choisir un nombre entre 1 et 4.");
+                    i--;
+                    continue;
+            }
+
+            membresEquipeUtilisateur.ajouter(personnage);
+        }
+        this.ajouterEquipe(membresEquipeUtilisateur);
+
+
+        // Jouer tant que l'équipe utilisateur gagne
+        while (true) {
+            // Créer une équipe ennemie
+            InterfaceEquipe equipeEnnemie = fabriqueEquipe.creerEquipe();
+
+            System.out.println("Equipe Utilisateur :");
+            this.afficherEquipes();
+
+            System.out.println("Equipe Ennemie :");
+            if (equipeEnnemie instanceof Equipe) {
+                Equipe equipeEnnemie1 = (Equipe) equipeEnnemie;
+                System.out.println("Equipe Ennemie :");
+                equipeEnnemie1.afficherEquipe();
+            } else {
+                System.out.println("Affichage non disponible pour l'équipe ennemie.");
+            }
+
+            // Lancement du combat
+            boolean equipeUtilisateurGagne = this.combat(this, membresEquipeUtilisateur, equipeEnnemie);
+
+            if (equipeUtilisateurGagne) {
+                // L'équipe utilisateur gagne
+                System.out.println("Victoire de l'équipe utilisateur !\n\n");
+                this.ameliorerEquipe(nomEquipe);
+                this.updateEtatEquipe(nomEquipe);
+            } else {
+                // L'équipe utilisateur perd
+                System.out.println("L'équipe utilisateur a perdu !");
+                break;
+            }
+        }
+        scanner.close();
     }
 }

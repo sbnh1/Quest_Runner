@@ -6,6 +6,7 @@ public class BatonDeSorcier extends Arme {
     public BatonDeSorcier(String nom, int degat, double poids) {
         super(nom, degat, poids);
         this.pouvoir = "feu";
+        this.soin = 5;
     }
 
     public BatonDeSorcier(String nom, int degat, double poids, String pouvoir) {

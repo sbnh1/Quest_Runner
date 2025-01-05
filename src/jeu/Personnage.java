@@ -60,6 +60,10 @@ public abstract class Personnage implements InterfaceEquipe {
         return maxPointDeVie;
     }
 
+    public void setMaxPointDeVie(int pdv){
+        this.maxPointDeVie += pdv;
+    }
+
     public abstract void augmenterLvl();
 
     public int getNiveau() {

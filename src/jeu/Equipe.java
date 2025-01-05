@@ -63,7 +63,9 @@ public class Equipe implements InterfaceEquipe {
     }
 
     public void afficherEquipe() {
-        System.out.println("Équipe " + nom + " :");
+        if(nom != "equipeSansNom"){
+            System.out.println("Équipe " + nom + " :");
+        }
         for (InterfaceEquipe membre : listeEquipe) {
             if (membre instanceof Personnage) {
                 Personnage perso = (Personnage) membre;
