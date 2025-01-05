@@ -18,28 +18,52 @@ public class Jeu {
     private CommandeManager commandManager = new CommandeManager();
 
 
+    /**
+     * Constructeur de la classe Jeu
+     */
     public Jeu() {
         this.equipes = new ArrayList<>();
     }
 
+    /**
+     * Méthode pour ajouter une équipe
+     * @param equipe Equipe
+     */
     public void ajouterEquipe(Equipe equipe) {
         equipes.add(equipe);
     }
 
+    /**
+     * Méthode pour afficher les équipes
+     */
     private void afficherEquipes() {
         for (Equipe equipe : equipes) {
             equipe.afficherEquipe();
         }
     }
 
+    /**
+     * Méthode pour faire attaquer un personnage
+     * @param attaquant Personnage attaquant
+     * @param cible Personnage cible
+     */
     private void faireAttaque(Personnage attaquant, Personnage cible) {
         attaquant.attaquer(cible);
     }
 
+    /**
+     * Méthode pour faire soigner un personnage
+     * @param attaquant Personnage attaquant
+     * @param cible Personnage cible
+     */
     private void faireSoigner(Personnage attaquant, Personnage cible) {
         attaquant.soigner(cible);
     }
 
+    /**
+     * Méthode pour améliorer une équipe
+     * @param nomEquipe Nom de l'équipe
+     */
     private void ameliorerEquipe(String nomEquipe) {
         Equipe equipe = trouverEquipeParNom(nomEquipe);
         if (equipe != null) {
@@ -50,6 +74,10 @@ public class Jeu {
         }
     }
 
+    /**
+     * Méthode pour mettre à jour l'état de l'équipe
+     * @param nomEquipe Nom de l'équipe
+     */
     private void updateEtatEquipe(String nomEquipe) {
         Equipe equipe = trouverEquipeParNom(nomEquipe);
         for(Personnage personnage : equipe.getMembres()){
@@ -57,6 +85,11 @@ public class Jeu {
         }
     }
 
+    /**
+     * Méthode pour trouver une équipe par son nom
+     * @param nomEquipe Nom de l'équipe
+     * @return Equipe trouvée ou null
+     */
     private Equipe trouverEquipeParNom(String nomEquipe) {
         for (Equipe equipe : equipes) {
             if (equipe.getNom().equals(nomEquipe)) {
@@ -66,7 +99,13 @@ public class Jeu {
         return null;
     }
 
-    // Méthode pour gérer le combat entre les équipes
+    /**
+     * Méthode pour gérer le combat entre les équipes
+     * @param jeu Jeu
+     * @param equipeUtilisateur Equipe utilisateur
+     * @param equipeEnnemie Equipe ennemie
+     * @return true si l'équipe utilisateur gagne, false sinon
+     */
     private boolean combat(Jeu jeu, Equipe equipeUtilisateur, InterfaceEquipe equipeEnnemie) {
         // Initialiser le compteur de tours (Singleton)
         CompteurDeTour compteurDeTour = CompteurDeTour.getInstance();
@@ -198,6 +237,9 @@ public class Jeu {
     }
 
 
+    /**
+     * Méthode pour initialiser le jeu
+     */
     public void initialisation() {
         FabriqueEquipe fabriqueEquipe = new FabriqueEquipe();
         Scanner scanner = new Scanner(System.in);

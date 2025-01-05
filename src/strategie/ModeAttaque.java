@@ -4,6 +4,10 @@ import jeu.Personnage;
 
 public class ModeAttaque implements Strategie {
 
+    /**
+     * Méthode pour choisir la stratégie de combat
+     * @param personnage Personnage
+     */
     @Override
     public void choisirStrategieDeCombat(Personnage personnage) {
         System.out.println("Mode attaque");
